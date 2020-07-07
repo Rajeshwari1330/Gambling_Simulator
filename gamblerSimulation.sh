@@ -2,63 +2,53 @@
 
 echo "Welcome To Gambling Simulation Problem ...!"
 
-function flip()
+function toss()
 {
-    result=$((RANDOM%2 + 1))
-    if(($result==1))
-    then
-        echo "OUTPUT IS HEAD"
-        add=1;
-    elif(($result==2))
-    then
-        echo "OUTPUT IS TAIL"
-        sub=1;
-    fi
+    tossResult=$((RANDOM % 2))
 }
 
-echo "Which do you want to choose:"
-echo "---------------"
-echo "1.HEAD"
-echo "2.TAIL"
-read userInput
-
-headIncrement=1
-tailIncrement=1
 money=100
-echo "I have $ 100 with me"
 bet=0
-echo "I will bet $ 1 now"
+winIncrement=1
+lossIncrement=1
+maxStake=150
+minStake=50
+won=1
+loss=1
 
-winAmount=150
-looseAmount=0
-while(($money != winAmount || $money != looseAmount))
-do
-	flip
-    if(($result==1))
+function winLossStatus()
+{
+    if(($tossResult==1))
     then
-    	echo "Won $headIncrement time"
-        money=`expr $money + $add`
-        echo "Money is $money"
-        headIncrement=`expr $headIncrement + 1`
-
-	elif(($result==2))
-    then
-    	echo "Won $tailIncrement time"
-        money=`expr $money - $sub`
-       	echo "Money is $money"
-        tailIncrement=`expr $tailIncrement + 1`
+        money=`expr $money + $won`
+        winIncrement=`expr $winIncrement + 1`
+    else
+        money=`expr $money - $loss`
+        lossIncrement=`expr $lossIncrement + 1`
     fi
+    echo "Money is : $money"
+}
 
-    bet=`expr $bet + 1`
-    echo "Number of bet is $bet"
+function winLoss() {
+	while(($money != maxStake || $money != minStake))
+    do
+        toss
+        winLossStatus
 
-    if(($money==winAmount))
-    then
-    	echo "Won the Game, have $ 150"
-        break
-	elif(($money==looseAmount))
-    then
-    	echo "Lost $ 100"
-        break
-    fi
-done
+        bet=`expr $bet + 1`
+        echo "Number of bet is $bet"
+
+        if(($money==maxStake))
+        then
+                echo "--------------"
+                echo "Won $maxStake"
+                break
+        elif(($money==minStake))
+        then
+                echo "--------------"
+                echo "Lost $minStake"
+                break
+        fi
+	done
+}
+winLoss
