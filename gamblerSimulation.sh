@@ -2,6 +2,7 @@
 echo "Welcome to gambler simulation ...!"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 echo "Welcome To Gambling Simulation Problem ...!"
 
 function toss()
@@ -17,32 +18,47 @@ function toss()
 		echo "OUTPUT IS TAIL"
     	sub=1;
 	fi
+=======
+echo "Welcome to gambler simulation ...!"
+
+function toss()
+{
+    tossResult=$((RANDOM % 2))
+>>>>>>> uc4_20DaysGamePlayStatus
 }
 
-echo "Which do you want to choose:"
-echo "---------------"
-echo "1.HEAD"
-echo "2.TAIL"
-read user
-
-echo "Till how much percentage of the amount you want to play?"
+echo "How much percent of stake amount you want to take ?"
 read stakeAmount
-totalDays=21
 
-for((day=1; day<totalDays; day++))
-do
-	echo "----------DAY $day -------------"
+bet=0
+winIncrement=1
+lossIncrement=1
+maxStake=200
+minStake=0
+won=1
+loss=1
+totalDays=20
 
-    headIncrement=1
-    tailIncrement=1
-    money=100
+function winLossStatus()
+{
+    if(($tossResult==1))
+    then
+        money=`expr $money + $won`
+        winIncrement=`expr $winIncrement + 1`
+    else
+        money=`expr $money - $loss`
+        lossIncrement=`expr $lossIncrement + 1`
+    fi
+}
 
-   	echo "I have $ 100 with me"
-    bet=0
-    echo "I will bet $ 1 now"
+sum=0
+totalBetAmount=2000
 
-    while(($money != 200 || $money != 0))
+function profitLoss()
+{
+    for count in ${totalMoneyWon[@]}
     do
+<<<<<<< HEAD
     	flip
         if(($result==1))
         then
@@ -134,27 +150,48 @@ function winLoss()
 	totalMoneyWon+=( "$money" )
 	echo "--------------------------------"
 done
+=======
+        sum=`expr $sum + $count`
+    done
+    echo "-----------------------------------------------"
+    echo "Total money won after playing 20 days is $ $sum, you bet $totalBetAmount"
+    if(($sum<$totalBetAmount))
+    then
+        moneyLoss=`expr $totalBetAmount - $sum `
+        echo "Total money loss in 20 days is $ $moneyLoss, YOU ARE IN LOSS."
+    else
+        exit
+    fi
+}
+>>>>>>> uc4_20DaysGamePlayStatus
 
-sum=0
-for count in ${totalMoneyWon[@]}
-do
-    sum=`expr $sum + $count`
-done
+function winLoss()
+{
+	for((day=0; day<totalDays; day++))
+	do
+		days=`expr $day + 1`
+		echo "----------DAY $days -------------"
+		money=100
+		while(($money != maxStake || $money != minStake))
+    	do
+        	toss
+        	winLossStatus
 
-echo "-----------------------------------------------"
-echo "Total money won after playing 20 days is $ $sum"
-echo "---------------------------------------------"
-echo "you bet $ 2000"
-if(($sum<2000))
-then
-    moneyLoss=`expr 2000 - $sum `
-    echo "Total money loss in 20 days is $ $moneyLoss"
-    echo "Your are in loss"
-else
-    exit
-fi
+        	if(($money==maxStake))
+        	then
+            	echo "Won $maxStake"
+            	break
+        	elif(($money==minStake))
+        	then
+            	echo "Lost $minStake"
+            	break
+        	fi
 
+        	winAmount=`expr $stakeAmount + 100`
+        	lossAmount=`expr 100 - $stakeAmount`
+        	bet=`expr $bet + 1`
 
+<<<<<<< HEAD
 =======
     tossResult=$((RANDOM % 2))
 }
@@ -209,3 +246,21 @@ winLoss
 }
 winLoss
 >>>>>>> uc3_gamblerResignCondition
+=======
+        	if(($money == $winAmount))
+       		then
+            	echo "Won $ $winAmount for $stakeAmount %"
+            	break
+        	elif(($money == $lossAmount))
+        	then
+            	echo "lost $ $lossAmount for $stakeAmount %"
+            	break
+        	fi
+		done
+    	echo "money for day $days is $ $money"
+    	totalMoneyWon+=( "$money" )
+	done
+}
+winLoss
+profitLoss
+>>>>>>> uc4_20DaysGamePlayStatus
