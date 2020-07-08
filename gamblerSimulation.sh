@@ -1,5 +1,7 @@
 #!/bin/bash -x
+echo "Welcome to gambler simulation ...!"
 
+<<<<<<< HEAD
 echo "Welcome To Gambling Simulation Problem ...!"
 
 function toss()
@@ -55,13 +57,67 @@ do
             echo "money is $ $money"
             tailIncrement=`expr $tailIncrement + 1`
 		fi
+=======
+function toss()
+{
+    tossResult=$((RANDOM % 2))
+}
 
-        winAmount=`expr $stakeAmount + 100`
+echo "How much percent of stake amount you want to take ?"
+read stakeAmount
+
+money=100
+bet=0
+winIncrement=1
+lossIncrement=1
+maxStake=200
+minStake=0
+won=1
+loss=1
+
+function winLossStatus()
+{
+    if(($tossResult==1))
+    then
+        money=`expr $money + $won`
+        winIncrement=`expr $winIncrement + 1`
+    else
+        money=`expr $money - $loss`
+        lossIncrement=`expr $lossIncrement + 1`
+    fi
+    echo "Money is : $money"
+}
+
+function winLoss()
+{
+	while(($money != maxStake || $money != minStake))
+    do
+    	toss
+       	winLossStatus
+
+        if(($money==maxStake))
+        then
+        	echo "--------------"
+            echo "Won $maxStake"
+            break
+        elif(($money==minStake))
+        then
+        	echo "--------------"
+            echo "Lost $minStake"
+            break
+        fi
+>>>>>>> uc3_gamblerResignCondition
+
+		winAmount=`expr $stakeAmount + 100`
         lossAmount=`expr 100 - $stakeAmount`
         bet=`expr $bet + 1`
         echo "number of bet is $bet"
 
+<<<<<<< HEAD
        	if(($money == $winAmount))
+=======
+		if(($money == $winAmount))
+>>>>>>> uc3_gamblerResignCondition
         then
         	echo "won $ $winAmount for $ $stakeAmount %"
             break
@@ -71,6 +127,7 @@ do
             break
         fi
 	done
+<<<<<<< HEAD
 
 	echo "--------------------------------"
 	echo "money for day $day is $ $money"
@@ -148,3 +205,7 @@ function winLoss() {
 }
 winLoss
 >>>>>>> uc2_winOrLooseCondition
+=======
+}
+winLoss
+>>>>>>> uc3_gamblerResignCondition
