@@ -44,12 +44,19 @@ function profitLoss()
     echo "-----------------------------------------------"
     echo "Total money won after playing $totalDays days is $ $sum, you bet $totalBetAmount"
 
-    if(($sum<$totalBetAmount))
+	if(($sum>$totalBetAmount))
+	then
+		echo "Do you want to play more ? If yes press 1 else 2."
+		read choice
+
+    elif(($sum<$totalBetAmount))
     then
         moneyLoss=`expr $totalBetAmount - $sum `
         echo "Total money loss in $totalDays days is $ $moneyLoss, YOU ARE IN LOSS."
-    else
-        exit
+
+	elif(($sum==$totalBetAmount))
+    then
+		echo "Player has $sum , neither won nor lost."
     fi
 }
 
@@ -108,3 +115,18 @@ function winLoss()
 }
 winLoss
 profitLoss
+
+while(($choice))
+do
+	if(($choice == 1))
+	then
+		unset sum
+		unset totalMoneyWon
+		unset dayWon
+		unset dayLoss
+		winLoss
+		profitLoss
+	else
+		exit
+	fi
+done
